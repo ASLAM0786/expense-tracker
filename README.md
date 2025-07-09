@@ -107,15 +107,3 @@ Aslam Ansari
 Senior Java Developer | 6+ years experience | Spring Boot Expert
 🔗 LinkedIn: https://www.linkedin.com/in/aslam57/
 📧 Email :aslamansariofficial2003@gmail.com
-
-
----
-
-## 📦 Optional: Add to your Git repo
-
-Save the file as `README.md` in your project root:
-
-```bash
-git add README.md
-git commit -m "Add professional README"
-git push
