@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 // ✅ Disable CSRF only for H2 console
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**","/api/v1/expense/**")
+                        .ignoringRequestMatchers("/h2-console/**","/api/v1/expense/**","/swagger-ui/**","/v3/api-docs/**")
                 )
 
                 // ✅ Allow H2 console to render in iframe
@@ -27,6 +27,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/v1/expense/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
