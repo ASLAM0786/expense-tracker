@@ -8,4 +8,5 @@ public class ExpenseResponseDTO {
     private double amount;
     private String category;
     private String description;
+    private Long userId; // Or nested UserDTO
 }

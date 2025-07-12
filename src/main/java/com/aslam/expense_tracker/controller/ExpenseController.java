@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class ExpenseController {
 
     //  Add New Expense
     @PostMapping
-    public ResponseEntity<ExpenseResponseDTO> addExpense(@RequestBody @Valid ExpenseRequestDTO dto) {
-        ExpenseResponseDTO savedExpense = expenseService.addExpense(dto);
+    public ResponseEntity<ExpenseResponseDTO> addExpense(@RequestBody @Valid ExpenseRequestDTO dto,  Principal principal) {
+        ExpenseResponseDTO savedExpense = expenseService.addExpense(dto, principal.getName());
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
     }
 

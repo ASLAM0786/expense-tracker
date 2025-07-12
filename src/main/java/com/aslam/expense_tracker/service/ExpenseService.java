@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ExpenseService {
-    ExpenseResponseDTO addExpense(ExpenseRequestDTO dto);
+    ExpenseResponseDTO addExpense(ExpenseRequestDTO dto,String username);
 
     List<ExpenseResponseDTO> getAll();
 

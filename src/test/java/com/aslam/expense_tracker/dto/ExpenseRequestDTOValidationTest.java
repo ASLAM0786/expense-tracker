@@ -29,19 +29,25 @@ class ExpenseRequestDTOValidationTest {
         dto.setCategory("Books");
         dto.setDate(LocalDate.now());
         dto.setDescription("Bought books");
+        dto.setUserId(1L);  // New field included
 
         Set<ConstraintViolation<ExpenseRequestDTO>> violations = validator.validate(dto);
-        assertTrue(violations.isEmpty());
+        assertTrue(violations.isEmpty(), "Expected no validation errors");
     }
 
     @Test
     void whenFieldsInvalid_thenExpectViolations() {
         ExpenseRequestDTO dto = new ExpenseRequestDTO();
-        dto.setAmount(0.0);
-        dto.setCategory("");
-        dto.setDate(null);
+        dto.setAmount(0.0);     // Invalid: below minimum
+        dto.setCategory("");    // Invalid: blank
+        dto.setDate(null);      // Invalid: null
+        dto.setUserId(null);    // Invalid: null
 
         Set<ConstraintViolation<ExpenseRequestDTO>> violations = validator.validate(dto);
-        assertEquals(3, violations.size());
+        assertEquals(4, violations.size(), "Expected 4 violations");
+
+        for (ConstraintViolation<ExpenseRequestDTO> violation : violations) {
+            System.out.println(violation.getPropertyPath() + ": " + violation.getMessage());
+        }
     }
 }

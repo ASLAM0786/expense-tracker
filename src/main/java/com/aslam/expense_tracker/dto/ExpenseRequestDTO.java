@@ -23,4 +23,6 @@ public class ExpenseRequestDTO {
     @Size(max = 100, message = "Description can't exceed 100 characters")
     private String description;
 
+    @NotNull(message = "User ID is required")
+    private Long userId; // NEW FIELD
 }

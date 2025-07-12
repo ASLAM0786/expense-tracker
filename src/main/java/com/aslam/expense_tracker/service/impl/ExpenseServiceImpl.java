@@ -4,9 +4,12 @@ import com.aslam.expense_tracker.dto.ExpenseRequestDTO;
 import com.aslam.expense_tracker.dto.ExpenseResponseDTO;
 import com.aslam.expense_tracker.mapper.ExpenseMapper;
 import com.aslam.expense_tracker.model.Expense;
+import com.aslam.expense_tracker.model.User;
 import com.aslam.expense_tracker.repository.ExpenseRepository;
+import com.aslam.expense_tracker.repository.UserRepository;
 import com.aslam.expense_tracker.service.ExpenseService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,16 +20,28 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseMapper mapper;
     private final ExpenseRepository repository;
+    private final UserRepository userRepository;
 
-    public ExpenseServiceImpl(ExpenseMapper mapper, ExpenseRepository repository) {
+    public ExpenseServiceImpl(ExpenseMapper mapper, ExpenseRepository repository, UserRepository userRepository) {
         this.mapper = mapper;
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public ExpenseResponseDTO addExpense(ExpenseRequestDTO dto) {
-        Expense e = mapper.toEntity(dto);
-        Expense saved = repository.save(e);
+    public ExpenseResponseDTO addExpense(ExpenseRequestDTO dto,String username) {
+        // Fetch the user based on username
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        // Map DTO to entity and assign the user
+        Expense expense = mapper.toEntity(dto);
+        expense.setUser(user); // 👈 Set the authenticated user
+
+        // Save to DB
+        Expense saved = repository.save(expense);
+
+        // Return response DTO
         return mapper.toDto(saved);
     }
 
